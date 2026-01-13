@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template, request
 from helpers import functions, s3
 from dotenv import load_dotenv
+from utils import logs
 
 load_dotenv()
 app = Flask(__name__)
@@ -13,6 +14,8 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
+    logger = logs.get_logger('app')
+    logger.info("Uploading files...")
 
     if request.method != 'POST':
         return {
