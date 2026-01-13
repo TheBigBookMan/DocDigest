@@ -27,7 +27,7 @@ def upload():
         }
 
     files = request.files.getlist('files')
-    print(files)
+    email = request.form.get('email')
 
     if len(files) < 1:
         return {
@@ -54,8 +54,17 @@ def upload():
             'cannot_process': cannot_process
         }
 
+    bucket_name = os.getenv('S3_BUCKET')
+    bucket_exists = s3.check_bucket_exists(bucket_name)
+
+    if not bucket_exists:
+        return {
+            'status': 'error',
+            'message': 'S3 bucket does not exist'
+        }
+
     for file in files_to_process:
-        upload_response = s3.upload_file_to_s3(file, os.getenv('S3_BUCKET'), file.filename)
+        upload_response = s3.upload_file_to_s3(file, bucket_name, file.filename)
 
 
 

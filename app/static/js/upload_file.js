@@ -2,7 +2,9 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const fileInput = document.getElementById('fileInput');
+    const emailInput = document.getElementById('email');
     const formData = new FormData();
+    formData.append('email', emailInput.value);
 
     for (const file of fileInput.files) {
         formData.append('files', file);

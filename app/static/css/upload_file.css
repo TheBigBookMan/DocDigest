@@ -42,6 +42,13 @@ input[type="file"] {
     cursor: pointer;
 }
 
+input[type="email"] {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+}
+
+
 button {
     padding: 12px 24px;
     background: #007bff;
