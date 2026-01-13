@@ -1,0 +1,233 @@
+================================================================================
+                         PURCHASE ORDER
+================================================================================
+
+Tech Industries Corporation
+567 Industrial Park Road
+Seattle, WA 98101
+Phone: (555) 345-6789
+Fax: (555) 345-6790
+Email: purchasing@techindustries.com
+
+--------------------------------------------------------------------------------
+PURCHASE ORDER DETAILS
+--------------------------------------------------------------------------------
+
+PO Number:           PO-2026-00567
+PO Date:             January 12, 2026
+Required Delivery:   February 15, 2026
+Payment Terms:       Net 60 Days
+Shipping Method:     Ground Freight
+Buyer:               David Chen (Procurement Manager)
+Department:          Manufacturing Operations
+
+--------------------------------------------------------------------------------
+VENDOR INFORMATION
+--------------------------------------------------------------------------------
+
+Vendor Name:         Global Components Supply Inc.
+Vendor ID:           VND-0123456
+Contact Person:      Sarah Williams
+Phone:               (555) 789-0123
+Email:               sales@globalcomponents.com
+Address:             890 Supply Chain Avenue
+                     Houston, TX 77001
+
+--------------------------------------------------------------------------------
+SHIP TO ADDRESS
+--------------------------------------------------------------------------------
+
+Tech Industries Corporation
+Warehouse Receiving Dock B
+567 Industrial Park Road, Building 3
+Seattle, WA 98101
+Attn: Receiving Department
+
+--------------------------------------------------------------------------------
+BILL TO ADDRESS
+--------------------------------------------------------------------------------
+
+Tech Industries Corporation
+Accounts Payable Department
+567 Industrial Park Road, Building 1
+Seattle, WA 98101
+
+--------------------------------------------------------------------------------
+LINE ITEMS - PAGE 1
+--------------------------------------------------------------------------------
+
+Item    Description                                   Part #         Qty    Unit Price    Total
+----    -----------------------------------------    ------------   -----   ----------   -----------
+001     Industrial Grade Steel Bearings               BRG-SS-2000    500    $12.50      $6,250.00
+        Size: 2" diameter, Stainless Steel
+        Spec: ABEC-7 precision rating
+
+002     Hydraulic Cylinder Assembly                   HYD-CYL-450    50     $245.00     $12,250.00
+        Bore: 4.5", Stroke: 12"
+        Pressure Rating: 3000 PSI
+
+003     Electric Motor 5HP 3-Phase                    MTR-5HP-3PH    25     $385.00     $9,625.00
+        Voltage: 480V, RPM: 1750
+        Frame: 184T, TEFC Enclosure
+
+004     Control Panel Circuit Breakers                CB-30A-3P      100    $45.00      $4,500.00
+        Rating: 30A, 3-Pole
+        UL Listed, DIN Rail Mount
+
+005     Pneumatic Valve Manifold Assembly             PNM-VM-8ST     30     $189.00     $5,670.00
+        8 Station, 1/8" NPT Ports
+        Includes solenoid valves
+
+006     High-Pressure Hydraulic Hoses                 HSE-HP-3/4     200    $28.50      $5,700.00
+        Size: 3/4", Length: 6ft
+        Working Pressure: 5000 PSI
+
+007     Industrial Safety Sensors                     SNS-SAF-PRX    75     $125.00     $9,375.00
+        Type: Proximity, Range: 0-50mm
+        IP67 Rated, PNP Output
+
+008     Conveyor Belt Sections                        CNV-BLT-24     150    $65.00      $9,750.00
+        Width: 24", Length: 10ft
+        Material: Polyurethane
+
+009     Automation PLC Controllers                    PLC-AUTO-M     15     $1,250.00   $18,750.00
+        I/O Points: 32 Digital, 16 Analog
+        Ethernet/IP Communication
+
+010     Variable Frequency Drives                     VFD-5HP-480    20     $825.00     $16,500.00
+        Power: 5HP, Input: 480V 3-Phase
+        Built-in Bypass, IP20
+
+011     Limit Switch Assemblies                       LSW-HVY-DT     200    $32.50      $6,500.00
+        Heavy Duty, Roller Lever Type
+        NEMA 4X Enclosure
+
+012     Pressure Transducers                          TRN-PRS-5K     40     $175.00     $7,000.00
+        Range: 0-5000 PSI
+        4-20mA Output, 1/4" NPT
+
+================================================================================
+                         PAGE 2 - PURCHASE ORDER PO-2026-00567
+================================================================================
+
+--------------------------------------------------------------------------------
+LINE ITEMS - PAGE 2 (CONTINUED)
+--------------------------------------------------------------------------------
+
+Item    Description                                   Part #         Qty    Unit Price    Total
+----    -----------------------------------------    ------------   -----   ----------   -----------
+013     Industrial Grade Chain #60                    CHN-60-10FT    300    $18.50      $5,550.00
+        Pitch: 3/4", Length: 10ft sections
+        Material: Heat-treated steel
+
+014     Servo Motors with Encoders                    SRV-2KW-ENC    12     $1,450.00   $17,400.00
+        Power: 2kW, Voltage: 230V
+        Absolute Encoder, IP65
+
+015     Air Compressor Filters                        FLT-AIR-HP     80     $45.00      $3,600.00
+        Flow: 100 CFM, Port: 3/4" NPT
+        Filtration: 0.01 micron
+
+016     Coupling Assemblies Flexible                  CPL-FLX-125    60     $95.00      $5,700.00
+        Bore: 1.25", Type: Spider
+        Max Torque: 500 lb-ft
+
+017     Emergency Stop Push Buttons                   BTN-ESTOP-R    150    $28.00      $4,200.00
+        Type: Mushroom Head, Red
+        Contact: 2NC, Panel Mount
+
+018     Proximity Sensor Brackets                     BRK-SNS-ADJ    75     $15.00      $1,125.00
+        Adjustable Mounting
+        Fits sensors up to 30mm diameter
+
+019     Cable Management Cable Trays                  TRY-CBL-6IN    100    $52.00      $5,200.00
+        Width: 6", Length: 10ft
+        Material: Galvanized Steel
+
+020     Industrial Lubricants - Bulk                  LUB-IND-55G    25     $385.00     $9,625.00
+        Type: ISO VG 68, 55 Gallon Drums
+        Synthetic Blend
+
+--------------------------------------------------------------------------------
+ORDER SUMMARY
+--------------------------------------------------------------------------------
+
+Subtotal:                                                           $174,120.00
+Shipping & Handling:                                                 $5,823.00
+Insurance:                                                           $1,741.20
+
+Tax (Sales Tax 8.5%):                                               $14,800.20
+
+                                                      TOTAL:        $196,484.40
+
+--------------------------------------------------------------------------------
+SPECIAL INSTRUCTIONS
+--------------------------------------------------------------------------------
+
+1. All items must be delivered to Warehouse Receiving Dock B
+2. Deliveries accepted Monday-Friday, 7:00 AM - 3:30 PM
+3. Advance delivery notice required 24 hours prior
+4. All items must include packing slips with PO number referenced
+5. Certificate of Compliance required for all electronic components
+6. Material Safety Data Sheets (MSDS) required for lubricants
+7. All shipments must be palletized and stretch-wrapped
+8. Partial shipments are acceptable with prior approval
+
+--------------------------------------------------------------------------------
+TERMS AND CONDITIONS
+--------------------------------------------------------------------------------
+
+1. Prices are firm for the duration of this order
+2. Supplier agrees to indemnify purchaser against patent infringement
+3. All items subject to inspection and acceptance
+4. Rejected items will be returned at supplier's expense
+5. Time is of the essence - late deliveries subject to penalties
+6. This PO is governed by the laws of the State of Washington
+7. Any changes to this PO must be approved in writing
+8. Supplier must maintain $2M general liability insurance
+
+--------------------------------------------------------------------------------
+AUTHORIZED SIGNATURES
+--------------------------------------------------------------------------------
+
+Buyer Authorization:
+Name:     David Chen
+Title:    Procurement Manager
+Date:     January 12, 2026
+Signature: ________________________
+
+
+Department Approval:
+Name:     Robert Martinez
+Title:    Manufacturing Director  
+Date:     January 12, 2026
+Signature: ________________________
+
+--------------------------------------------------------------------------------
+VENDOR ACKNOWLEDGMENT
+--------------------------------------------------------------------------------
+
+I acknowledge receipt of this Purchase Order and agree to the terms and
+conditions stated herein. I commit to delivering all items by the required
+delivery date of February 15, 2026.
+
+
+Vendor Representative:  ________________________
+
+Name:                   ________________________
+
+Title:                  ________________________
+
+Date:                   ________________________
+
+
+================================================================================
+                    END OF PURCHASE ORDER - PO-2026-00567
+================================================================================
+
+For questions regarding this purchase order, please contact:
+David Chen, Procurement Manager
+Email: d.chen@techindustries.com
+Direct: (555) 345-6791
+
+CONFIDENTIAL - This document contains proprietary information

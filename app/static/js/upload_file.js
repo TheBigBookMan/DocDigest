@@ -3,7 +3,10 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
 
     const fileInput = document.getElementById('fileInput');
     const formData = new FormData();
-    formData.append('file', fileInput.files[0]);
+
+    for (const file of fileInput.files) {
+        formData.append('files', file);
+    }
 
     try {
         const response = await fetch('/upload', {
@@ -17,7 +20,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
             document.getElementById('results').style.display = 'block';
             document.getElementById('jsonOutput').textContent = JSON.stringify(data, null, 2);
         } else {
-            alert('Error: ' + data.error);
+            alert('Error: ' + (data.error || 'Upload failed'));
         }
     } catch (error) {
         alert('Upload failed: ' + error.message);
