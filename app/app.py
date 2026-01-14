@@ -6,6 +6,7 @@ from flask import Flask, render_template, request
 from helpers import functions, s3, dynamo_db
 from dotenv import load_dotenv
 from utils import logs
+from components import file_validation
 
 load_dotenv()
 app = Flask(__name__)
@@ -35,30 +36,13 @@ def upload():
     email = request.form.get('email')
     session_id = str(uuid.uuid4())
 
-    if len(files) < 1:
-        return {
-            'status': 'error',
-            'message': 'Files need to be uploaded'
-        }
+    # Validate files are correct format
+    validate_files = file_validation.validate(files)
 
-    cannot_process = []
-    files_to_process = []
+    if validate_files['status'] == 'error':
+        return validate_files
 
-    for file in files:
-        if not functions.allowed_file(file.filename):
-            cannot_process.append({
-                'filename': file.filename,
-                'reason': 'Not correct format'
-            })
-
-        files_to_process.append(file)
-
-    if len(cannot_process) == len(files):
-        return {
-            'status': 'error',
-            'message': 'All files format not accepted',
-            'cannot_process': cannot_process
-        }
+    files_to_process = validate_files['files']
 
     bucket_name = os.getenv('S3_BUCKET')
     bucket_exists = s3.check_bucket_exists(bucket_name)
