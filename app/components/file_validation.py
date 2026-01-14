@@ -7,19 +7,13 @@ def validate(files):
             'message': 'Files need to be uploaded'
         }
 
-    cannot_process = []
     files_to_process = []
 
     for file in files:
-        if not functions.allowed_file(file.filename):
-            cannot_process.append({
-                'filename': file.filename,
-                'reason': 'Not correct format'
-            })
+        if functions.allowed_file(file.filename):
+            files_to_process.append(file)
 
-        files_to_process.append(file)
-
-    if len(cannot_process) == len(files):
+    if len(files_to_process) == 0:
         return {
             'status': 'error',
             'message': 'All files format not accepted',
