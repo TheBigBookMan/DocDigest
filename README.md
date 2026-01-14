@@ -72,8 +72,9 @@ ENVIRONMENT='development'
 
 AWS_ACCESS_KEY_ID=access_key_id_for_iam
 AWS_SECRET_ACCESS_KEY=secret_secret_key
-AWS_REGION=aws_region
+AWS_DEFAULT_REGION=aws_region
 S3_BUCKET=bucket_name
+DYNAMO_DB_TABLE=dynamo_table_name
 ```
 
 .flaskenv
