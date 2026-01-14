@@ -4,11 +4,11 @@ import datetime
 
 from flask import Flask, render_template, request
 from helpers import functions, s3, dynamo_db
-from dotenv import load_dotenv
-from utils import logs
-from components import file_validation
 
-load_dotenv()
+from utils import logs
+from components import file_validation, upload_to_s3
+from services import S3Service
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -44,14 +44,15 @@ def upload():
 
     files_to_process = validate_files['files']
 
-    bucket_name = os.getenv('S3_BUCKET')
-    bucket_exists = s3.check_bucket_exists(bucket_name)
+    # Handle uploading files to S3 bucket
+    handle_s3 = upload_to_s3.upload_files_to_s3(files_to_process, session_id)
 
-    if not bucket_exists:
-        return {
-            'status': 'error',
-            'message': 'S3 bucket does not exist'
-        }
+    if handle_s3['status'] == 'error':
+        return handle_s3
+
+    uploaded_files = handle_s3['uploaded_files']
+
+
 
     table_name = os.getenv('DYNAMO_DB_TABLE')
     table_exists = dynamo_db.check_table_exists(table_name)
@@ -60,20 +61,6 @@ def upload():
         return {
             'status': 'error',
             'message': 'DynamoDB table does not exist'
-        }
-
-    uploaded_files = []
-
-    for file in files_to_process:
-        upload_response = s3.upload_file_to_s3(file, bucket_name, f"{session_id}/{file.filename}")
-
-        if upload_response:
-            uploaded_files.append(file.filename)
-
-    if len(uploaded_files) == 0:
-        return {
-            'status': 'error',
-            'message': 'No uploaded files'
         }
 
     payload = {
