@@ -10,6 +10,7 @@ DocDigest is a small webapp tool created for users to upload a document (pdf, do
 - The user can view in realtime the processing of the documents
 
 ## Architecture
+ADRs in `/documentation`
 ```mermaid
 flowchart TD;
     client[Client Browser] -->|HTTP POST| api[Flask API];
