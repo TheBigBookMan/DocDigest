@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, render_template, request
-from helpers import functions, s3
+from helpers import functions, s3, dynamo_db
 from dotenv import load_dotenv
 from utils import logs
 
@@ -64,6 +64,15 @@ def upload():
         return {
             'status': 'error',
             'message': 'S3 bucket does not exist'
+        }
+
+    table_name = os.getenv('DYNAMO_DB_TABLE')
+    table_exists = dynamo_db.check_table_exists(table_name)
+
+    if not table_exists:
+        return {
+            'status': 'error',
+            'message': 'DynamoDB table does not exist'
         }
 
     uploaded_files = []
