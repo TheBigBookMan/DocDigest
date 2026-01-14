@@ -21,6 +21,27 @@
             <div id="errorMessage" class="error-message" style="display: none;"></div>
         </form>
 
+        <div id="fileStatusSection" class="file-status-section" style="display: none;">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="processing">
+                    Processing (<span id="processingCount">0</span>)
+                </button>
+                <button class="tab-button" data-tab="canceled">
+                    Failed (<span id="canceledCount">0</span>)
+                </button>
+            </div>
+
+            <div class="tab-content">
+                <div id="processing-tab" class="tab-panel active">
+                    <div id="processingFiles" class="file-list"></div>
+                </div>
+
+                <div id="canceled-tab" class="tab-panel">
+                    <div id="canceledFiles" class="file-list"></div>
+                </div>
+            </div>
+        </div>
+
         <div id="results" style="display: none;">
             <h2>Extraction Results</h2>
             <pre id="jsonOutput"></pre>
