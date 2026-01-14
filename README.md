@@ -10,8 +10,25 @@ DocDigest is a small webapp tool created for users to upload a document (pdf, do
 - The user can view in realtime the processing of the documents
 
 ## Architecture
+```mermaid
+flowchart TD;
+    client[Client Browser] -->|HTTP POST| api[Flask API];
+    api -->|1. Upload files| s3_bucket[S3 Bucket];
+    api -->|2. Store session data| dynamo_db[DynamoDB]
+    api -->|3. Response `Processing upload` or `Error`| client;
 
-[Simple diagram or description of how components connect]
+    s3_bucket -->|4. Event| sqs_service[SQS Service];
+    sqs_service -->|5. Trigger| processing_lambda[Processor Lambda];
+    processing_lambda --> |6. Retrieves file| s3_bucket;
+    processing_lambda -->|7. Scrape| llm[LLM];
+    processing_lambda -->|8. Update results| dynamo_db;
+    processing_lambda -->|9. All files done?| check{Check Count};
+    check -- Yes --> sns[SNS Topic];
+    sns -->|10. Triggers| notifier_lambda[Notifier Lambda];
+    notifier_lambda -->|11. Get all data| dynamo_db;
+    notifier_lambda -->|12. Send email| ses[AWS SES];
+    ses --> user[User Inbox];
+```
 
 ## Quick Start
 
