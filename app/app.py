@@ -1,4 +1,6 @@
 import os
+import uuid
+import datetime
 
 from flask import Flask, render_template, request
 from helpers import functions, s3, dynamo_db
@@ -31,6 +33,7 @@ def upload():
 
     files = request.files.getlist('files')
     email = request.form.get('email')
+    session_id = str(uuid.uuid4())
 
     if len(files) < 1:
         return {
@@ -78,7 +81,7 @@ def upload():
     uploaded_files = []
 
     for file in files_to_process:
-        upload_response = s3.upload_file_to_s3(file, bucket_name, file.filename)
+        upload_response = s3.upload_file_to_s3(file, bucket_name, f"{session_id}/{file.filename}")
 
         if upload_response:
             uploaded_files.append(file.filename)
@@ -88,6 +91,25 @@ def upload():
             'status': 'error',
             'message': 'No uploaded files'
         }
+
+    payload = {
+        'session_id': session_id,
+        'email': email,
+        'total_files': len(uploaded_files),
+        'completed_files': '0',
+        'uploaded_time': datetime.now(),
+        'response': []
+    }
+
+    insert_dynamo = dynamo_db.create_item(table_name, payload)
+
+    if not insert_dynamo:
+        return {
+            'status': 'error',
+            'message': 'DynamoDB error'
+        }
+
+
 
     return {
         'status': 'success',

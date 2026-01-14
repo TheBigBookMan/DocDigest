@@ -10,6 +10,19 @@ def check_table_exists(name):
         dynamo_db.describe_table(TableName=name)
         logger.info(f"Table {name} exists")
         return True
+
+    except Exception as e:
+        logger.error(e)
+        return False
+
+def create_item(table_name, data):
+    logger.info(f"Inserting into table: {table_name}")
+
+    try:
+        dynamo_db.put_item(TableName=table_name, Item=data)
+        logger.info(f"Item added: {data}")
+        return True
+
     except Exception as e:
         logger.error(e)
         return False
