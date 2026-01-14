@@ -66,15 +66,23 @@ def upload():
             'message': 'S3 bucket does not exist'
         }
 
+    uploaded_files = []
+
     for file in files_to_process:
         upload_response = s3.upload_file_to_s3(file, bucket_name, file.filename)
 
+        if upload_response:
+            uploaded_files.append(file.filename)
 
-
+    if len(uploaded_files) == 0:
+        return {
+            'status': 'error',
+            'message': 'No uploaded files'
+        }
 
     return {
         'status': 'success',
         'message': 'Processing...',
-        'cannot_process': cannot_process
+        'uploaded_files': uploaded_files,
     }
 

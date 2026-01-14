@@ -9,7 +9,7 @@ def upload_file_to_s3(file_path, bucket, key):
 
     try:
         s3.upload_fileobj(file_path, bucket, key)
-        logger.success(f"Successfully uploaded to S3 bucket {bucket} and key {key}")
+        logger.info(f"Successfully uploaded to S3 bucket {bucket} and key {key}")
         return True
 
     except Exception as e:
@@ -21,7 +21,7 @@ def check_bucket_exists(bucket_name):
 
     try:
         s3.head_bucket(Bucket=bucket_name)
-        logger.success(f"Bucket {bucket_name} exists")
+        logger.info(f"Bucket {bucket_name} exists")
         return True
 
     except Exception as e:
