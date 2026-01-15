@@ -62,7 +62,7 @@ def upload():
         'email': email,
         'total_files': len(uploaded_files),
         'completed_files': '0',
-        'uploaded_at': datetime.datetime.now(),
+        'uploaded_at': datetime.datetime.now().isoformat(),
         'completed_at': '',
         'response': []
     }
@@ -71,7 +71,6 @@ def upload():
 
     if insert_row_dynamo['status'] == 'error':
         return insert_row_dynamo
-
 
     return {
         'status': 'success',
