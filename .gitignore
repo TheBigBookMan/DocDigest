@@ -2,3 +2,5 @@ spec.md
 .env
 .flaskenv
 venv
+
+lambda/processor/.env
