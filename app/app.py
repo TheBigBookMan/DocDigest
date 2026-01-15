@@ -5,7 +5,7 @@ import datetime
 from flask import Flask, render_template, request
 from utils import logs
 from components import file_validation
-from services import S3Service
+from services import S3Service, DynamoDBService
 import config
 
 app = Flask(__name__)
@@ -47,41 +47,30 @@ def upload():
     s3_handler = S3Service(config_handler.S3_BUCKET, config_handler.AWS_DEFAULT_REGION)
 
     # Handle uploading files to S3 bucket
-    handle_s3 = s3_handler.insert_s3(session_id, files_to_process)
+    upload_files_s3 = s3_handler.insert_s3(session_id, files_to_process)
 
-    if handle_s3['status'] == 'error':
-        return handle_s3
+    if upload_files_s3['status'] == 'error':
+        return upload_files_s3
 
-    uploaded_files = handle_s3['uploaded_files']
+    uploaded_files = upload_files_s3['uploaded_files']
 
+    dynamo_db_handler = DynamoDBService(config_handler.AWS_DEFAULT_REGION, config_handler.DYNAMO_DB_TABLE)
 
+    # Handle inserting new row into DynamoDB
+    payload = {
+        'session_id': session_id,
+        'email': email,
+        'total_files': len(uploaded_files),
+        'completed_files': '0',
+        'uploaded_at': datetime.datetime.now(),
+        'completed_at': '',
+        'response': []
+    }
 
-    # table_name = os.getenv('DYNAMO_DB_TABLE')
-    # table_exists = dynamo_db.check_table_exists(table_name)
-    #
-    # if not table_exists:
-    #     return {
-    #         'status': 'error',
-    #         'message': 'DynamoDB table does not exist'
-    #     }
-    #
-    # payload = {
-    #     'session_id': session_id,
-    #     'email': email,
-    #     'total_files': len(uploaded_files),
-    #     'completed_files': '0',
-    #     'uploaded_time': datetime.now(),
-    #     'response': []
-    # }
-    #
-    # insert_dynamo = dynamo_db.create_item(table_name, payload)
-    #
-    # if not insert_dynamo:
-    #     return {
-    #         'status': 'error',
-    #         'message': 'DynamoDB error'
-    #     }
-    #
+    insert_row_dynamo = dynamo_db_handler.insert_row(payload)
+
+    if insert_row_dynamo['status'] == 'error':
+        return insert_row_dynamo
 
 
     return {
