@@ -77,4 +77,3 @@ def upload():
         'message': 'Processing...',
         'uploaded_files': uploaded_files,
     }
-
