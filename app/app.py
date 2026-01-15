@@ -47,6 +47,12 @@ def upload():
     s3_handler = S3Service(config_handler.S3_BUCKET, config_handler.AWS_DEFAULT_REGION)
 
     # Handle uploading files to S3 bucket
+    if not s3_handler.check_bucket_exists():
+        return {
+            'status': 'error',
+            'message': 'S3 bucket does not exist'
+        }
+
     upload_files_s3 = s3_handler.insert_s3(session_id, files_to_process)
 
     if upload_files_s3['status'] == 'error':
