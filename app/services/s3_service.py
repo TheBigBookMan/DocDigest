@@ -20,9 +20,7 @@ class S3Service:
             return False
 
     def insert_s3(self, session_id, files):
-        bucket_exists = self.check_bucket_exists()
-
-        if not bucket_exists:
+        if not self.check_bucket_exists():
             self.logger.info(f"Bucket {self.bucket_name} does not exist")
             return {
                 'status': 'error',
@@ -32,9 +30,7 @@ class S3Service:
         uploaded_files = []
 
         for file in files:
-            upload_response = self.upload_file(file, f"{session_id}/{file.filename}")
-
-            if upload_response:
+            if self.upload_file(file, f"{session_id}/{file.filename}"):
                 uploaded_files.append(file.filename)
 
         if len(uploaded_files) == 0:
