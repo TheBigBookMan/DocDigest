@@ -37,6 +37,11 @@ class S3Service:
             if upload_response:
                 uploaded_files.append(file.filename)
 
+        if len(uploaded_files) == 0:
+            return {
+                'status': 'error',
+                'message': 'No uploaded files'
+            }
 
         return {
             'status': 'success',
