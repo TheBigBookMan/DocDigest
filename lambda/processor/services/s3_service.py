@@ -20,6 +20,17 @@ class S3Service:
             self.logger.error(e)
             return False
 
-    def retrieve_file_from_s3(self):
-        ...
+    def retrieve_file_from_s3(self, key):
+        path_name = self.bucket_name + "/" + key
+        self.logger.info(f"Retrieving {path_name} from s3")
 
+        try:
+            uploaded_file = self.client.get_object(Bucket=self.bucket_name, Key=key)
+            return {
+                'status': 'success',
+                'data': uploaded_file
+            }
+
+        except Exception as e:
+            self.logger.error(e)
+            return False
