@@ -56,13 +56,21 @@ def lambda_handler(event, context):
         }
 
     claude_prompt = "Extract structured data from this invoice/receipt: " + parsed_file_body
-    claude_handler.query_claude(claude_prompt, system_prompt)
+    claude_response = claude_handler.query_claude(claude_prompt, system_prompt)
+
+    if not claude_response:
+        return {
+            'status': 'error',
+            'message': 'Error retrieving claude'
+        }
+
 
 
     # TODO update response of the DynamoDB record and number completed
     # TODO check if every file is completed
     #       TODO if yes then send off SNS notifier to notifier lambda
 
+# TODO if all is completed, then delete files from bucket? can say thats security decision???
 
 
 if __name__ == '__main__':
