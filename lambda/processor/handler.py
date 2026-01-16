@@ -32,7 +32,16 @@ def lambda_handler(event, context):
             'message': 'File does not exist'
         }
 
-    print(uploaded_file)
+    file_data = uploaded_file['data']
+
+    if file_data['ResponseMetadata']['HTTPStatusCode'] != 200:
+        return {
+            'status': 'error',
+            'message': 'Error retrieving file'
+        }
+
+    file_body = file_data['Body'].read()
+    print(file_body)
 
     # TODO query claude
 
