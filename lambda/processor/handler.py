@@ -2,8 +2,9 @@ import boto3
 import os
 import logging
 from dotenv import load_dotenv
-from services.s3_service import S3Service
-from helper import parse_lambda
+from services import S3Service, ClaudeService
+from helper import parse_lambda, extract_text_from_pdf
+from claude_prompts import system_prompt
 
 load_dotenv()
 logger = logging.getLogger()
@@ -12,6 +13,7 @@ logger.setLevel(logging.INFO)
 def lambda_handler(event, context):
     logger.info(f"Starting lambda handler")
 
+    # Get s3 and SQS information from event
     s3_event_data = parse_lambda(event)
     s3_object_data = s3_event_data['s3']
     logger.info(f"Time: {s3_event_data['event_time']}: Received event: {s3_event_data['event_source']} with action {s3_event_data['event_name']}")
@@ -24,6 +26,7 @@ def lambda_handler(event, context):
             'message': 'S3 bucket does not exist'
         }
 
+    # Retrieve file from s3
     uploaded_file = s3_handler.retrieve_file_from_s3(s3_object_data['object']['key'])
 
     if not uploaded_file:
@@ -41,9 +44,19 @@ def lambda_handler(event, context):
         }
 
     file_body = file_data['Body'].read()
-    print(file_body)
+    parsed_file_body = extract_text_from_pdf(file_body)
 
-    # TODO query claude
+    # Query claude with file
+    claude_handler = ClaudeService(os.getenv('ANTHROPIC_API_KEY'))
+
+    if not claude_handler:
+        return {
+            'status': 'error',
+            'message': 'Error retrieving claude'
+        }
+
+    claude_prompt = "Extract structured data from this invoice/receipt: " + parsed_file_body
+    claude_handler.query_claude(claude_prompt, system_prompt)
 
 
     # TODO update response of the DynamoDB record and number completed
