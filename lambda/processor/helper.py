@@ -38,3 +38,16 @@ def extract_text_from_pdf(pdf_bytes):
     except Exception as e:
         logger.error(f"PDF text extraction failed: {str(e)}", exc_info=True)
         raise
+
+# JSON returned by clauude as backticks start and end- clean up and parse
+def  parse_json_response(text):
+    lines = text.strip().split('\n')
+
+    if lines[0].strip().startswith('```'):
+        lines = lines[1:]
+
+    if lines[-1].strip() == '```':
+        lines = lines[:-1]
+
+    cleaned = '\n'.join(lines)
+    return json.loads(cleaned)
