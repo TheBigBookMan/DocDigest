@@ -25,7 +25,7 @@ class ClaudeService:
 
         try:
             claude_response = self.client.messages.create(
-                max_tokens=1024,
+                max_tokens=4000,
                 messages=[
                     {
                         'role': 'user',
