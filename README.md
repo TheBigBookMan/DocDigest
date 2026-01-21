@@ -23,11 +23,12 @@ flowchart TD;
     processing_lambda --> |6. Retrieves file| s3_bucket;
     processing_lambda -->|7. Scrape| llm[LLM];
     processing_lambda -->|8. Update results| dynamo_db;
-    processing_lambda -->|9. All files done?| check{Check Count};
+    processing_lambda -->|9. Delete file from S3| s3_bucket;
+    processing_lambda -->|10. All files done?| check{Check Count};
     check -- Yes --> sns[SNS Topic];
-    sns -->|10. Triggers| notifier_lambda[Notifier Lambda];
-    notifier_lambda -->|11. Get all data| dynamo_db;
-    notifier_lambda -->|12. Send email| ses[AWS SES];
+    sns -->|11. Triggers| notifier_lambda[Notifier Lambda];
+    notifier_lambda -->|12. Get all data| dynamo_db;
+    notifier_lambda -->|13. Send email| ses[AWS SES];
     ses --> user[User Inbox];
 ```
 
