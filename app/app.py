@@ -67,10 +67,12 @@ def upload():
         'session_id': session_id,
         'email': email,
         'total_files': len(uploaded_files),
-        'completed_files': '0',
+        'completed_count': 0,
+        'processed_files': [],
+        'status': 'PROCESSING',
         'uploaded_at': datetime.datetime.now().isoformat(),
-        'completed_at': '',
-        'response': []
+        'completed_at': None,
+        'response': {}
     }
 
     insert_row_dynamo = dynamo_db_handler.insert_row(payload)
