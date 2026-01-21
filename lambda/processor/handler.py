@@ -30,6 +30,9 @@ def lambda_handler(event, context):
         }
 
     s3_key = s3_object_data['object']['key']
+    s3_key_vals = s3_key.split('/')
+    session_id = s3_key_vals[0]
+    filename = s3_key_vals[1]
 
     # Retrieve file from s3
     uploaded_file = s3_handler.retrieve_file_from_s3(s3_key)
@@ -69,9 +72,29 @@ def lambda_handler(event, context):
             'message': 'Error retrieving claude'
         }
 
-
-
     # TODO update response of the DynamoDB record and number completed
+    dynamo_handler = DynamoDBService(os.getenv('AWS_DEFAULT_REGION'), os.getenv('DYNAMO_DB_TABLE'))
+
+    update_query = "ADD processed_files :f SET completed_count = completed_count + :inc, results.#filename = :output"
+    updated_values = {
+        ':f': filename,
+        ':inc': 1,
+        ':output': claude_response
+    }
+    updated_keys = {
+        '#filename': filename,
+    }
+
+    updated_row = dynamo_handler.update_row(session_id, update_query, updated_values, updated_keys)
+
+    if not updated_row:
+        return {
+            'status': 'error',
+            'message': 'Error updating dynamo table'
+        }
+
+
+
     # TODO check if every file is completed
     #       TODO if yes then send off SNS notifier to notifier lambda
 

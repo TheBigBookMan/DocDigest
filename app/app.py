@@ -75,6 +75,8 @@ def upload():
         'response': {}
     }
 
+    # TODO add a TTL Time to live on the table so rows are deleted after X amount of tim
+    # TODO write ADR about the time to live decicion
     insert_row_dynamo = dynamo_db_handler.insert_row(payload)
 
     if insert_row_dynamo['status'] == 'error':
