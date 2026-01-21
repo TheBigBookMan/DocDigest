@@ -34,3 +34,18 @@ class S3Service:
         except Exception as e:
             self.logger.error(e)
             return False
+
+    def delete_file_from_s3(self, key):
+        self.logger.info(f"Deleting {key} from s3")
+
+        try:
+            deleted_file = self.client.delete_object(Bucket=self.bucket_name, Key=key)
+
+            if not deleted_file['DeleteMarker']:
+                return False
+
+            return True
+
+        except Exception as e:
+            self.logger.error(e)
+            return False

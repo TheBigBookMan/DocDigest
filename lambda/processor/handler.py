@@ -2,7 +2,7 @@ import boto3
 import os
 import logging
 from dotenv import load_dotenv
-from services import S3Service, ClaudeService
+from services import S3Service, ClaudeService, DynamoDBService
 from helper import parse_lambda, extract_text_from_pdf
 from claude_prompts import system_prompt
 
@@ -12,6 +12,9 @@ logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     logger.info(f"Starting lambda handler")
+
+    # TODO documentation on deleting the file after querying LLM for security and then checking at start to ensure not already processed
+
 
     # Get s3 and SQS information from event
     s3_event_data = parse_lambda(event)
@@ -26,8 +29,10 @@ def lambda_handler(event, context):
             'message': 'S3 bucket does not exist'
         }
 
+    s3_key = s3_object_data['object']['key']
+
     # Retrieve file from s3
-    uploaded_file = s3_handler.retrieve_file_from_s3(s3_object_data['object']['key'])
+    uploaded_file = s3_handler.retrieve_file_from_s3(s3_key)
 
     if not uploaded_file:
         return {
@@ -71,6 +76,14 @@ def lambda_handler(event, context):
     #       TODO if yes then send off SNS notifier to notifier lambda
 
 # TODO if all is completed, then delete files from bucket? can say thats security decision???
+
+    deleted_file = s3_handler.delete_file_from_s3(s3_key)
+
+    if not deleted_file:
+        return {
+            'status': 'error',
+            'message': 'Error deleting file'
+        }
 
 
 if __name__ == '__main__':
