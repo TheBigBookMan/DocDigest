@@ -68,7 +68,7 @@ def upload():
         'email': email,
         'total_files': len(uploaded_files),
         'completed_count': 0,
-        'processed_files': [],
+        'processed_files': set(),
         'status': 'PROCESSING',
         'uploaded_at': datetime.datetime.now().isoformat(),
         'completed_at': None,
