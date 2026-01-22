@@ -76,7 +76,7 @@ def lambda_handler(event, context):
 
     update_query = "ADD processed_files :f SET completed_count = completed_count + :inc, results.#filename = :output"
     updated_values = {
-        ':f': filename,
+        ':f': {filename},
         ':inc': 1,
         ':output': claude_response
     }
@@ -115,7 +115,7 @@ if __name__ == '__main__':
             {
                 "messageId": "059f36b4-87a3-44ab-83d2-661975830a7d",
                 "receiptHandle": "AQEBwJnKyrHigUMZj6rYigCgxlaS3SLy...",
-                "body": "{\"Records\":[{\"eventVersion\":\"2.1\",\"eventSource\":\"aws:s3\",\"awsRegion\":\"ap-southeast-2\",\"eventTime\":\"2026-01-15T14:30:45.123Z\",\"eventName\":\"ObjectCreated:Put\",\"s3\":{\"bucket\":{\"name\":\"docdigest\"},\"object\":{\"key\":\"cb423861-a982-4dd1-88ab-5d6c2134c087/invoice_sample.pdf\",\"size\":2048576}}}]}",
+                "body": "{\"Records\":[{\"eventVersion\":\"2.1\",\"eventSource\":\"aws:s3\",\"awsRegion\":\"ap-southeast-2\",\"eventTime\":\"2026-01-15T14:30:45.123Z\",\"eventName\":\"ObjectCreated:Put\",\"s3\":{\"bucket\":{\"name\":\"docdigest\"},\"object\":{\"key\":\"e54a22c5-0634-4a90-8aeb-e25ec3df1701/invoice_sample.pdf\",\"size\":2048576}}}]}",
                 "attributes": {
                     "ApproximateReceiveCount": "1",
                     "SentTimestamp": "1705327845123",

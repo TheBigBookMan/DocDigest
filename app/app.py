@@ -72,7 +72,7 @@ def upload():
         'status': 'PROCESSING',
         'uploaded_at': datetime.datetime.now().isoformat(),
         'completed_at': None,
-        'response': {}
+        'results': {}
     }
 
     # TODO add a TTL Time to live on the table so rows are deleted after X amount of tim

@@ -1,11 +1,13 @@
 import boto3
 from utils import logs
+from boto3.dynamodb.types import TypeSerializer
 
 class DynamoDBService:
     def __init__(self, region_name, table_name):
         self.logger = logs.get_logger('dynamodb')
         self.client = boto3.client('dynamodb', region_name = region_name)
         self.table_name = table_name
+        self.serializer = TypeSerializer()
 
     def update_row(self, session_id, update_query, update_values, updated_keys):
         self.logger.info(f"Updating row for session {session_id}")
@@ -13,9 +15,9 @@ class DynamoDBService:
         try:
             return self.client.update_item(
                 TableName=self.table_name,
-                Key=session_id,
+                Key=self._serialize_item({'session_id': session_id}),
                 UpdateExpression=update_query,
-                ExpressionAttributeValues=update_values,
+                ExpressionAttributeValues=self._serialize_item(update_values),
                 ExpressionAttributeNames=updated_keys,
                 ReturnValues="UPDATED_NEW"
             )
@@ -23,3 +25,7 @@ class DynamoDBService:
         except Exception as e:
             self.logger.error(e)
             return False
+
+    def _serialize_item(self, data):
+        """Convert Python dict to DynamoDB format"""
+        return {key: self.serializer.serialize(value) for key, value in data.items()}
