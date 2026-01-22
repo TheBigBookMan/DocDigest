@@ -1,14 +1,11 @@
 import boto3
-import os
-import logging
-from dotenv import load_dotenv
+import config
+from utils import logs
 from services import S3Service, ClaudeService, DynamoDBService
 from helper import parse_lambda, extract_text_from_pdf
 from claude_prompts import system_prompt
 
-load_dotenv()
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+logger = logs.get_logger('lambda')
 
 def lambda_handler(event, context):
     logger.info(f"Starting lambda handler")
@@ -21,7 +18,9 @@ def lambda_handler(event, context):
     s3_object_data = s3_event_data['s3']
     logger.info(f"Time: {s3_event_data['event_time']}: Received event: {s3_event_data['event_source']} with action {s3_event_data['event_name']}")
 
-    s3_handler = S3Service(os.getenv('S3_BUCKET'), os.getenv('AWS_DEFAULT_REGION'))
+    config_handler = config.Config()
+
+    s3_handler = S3Service(config_handler.S3_BUCKET, config_handler.AWS_DEFAULT_REGION)
 
     if not s3_handler.check_bucket_exists():
         return {
@@ -55,7 +54,7 @@ def lambda_handler(event, context):
     parsed_file_body = extract_text_from_pdf(file_body)
 
     # Query claude with file
-    claude_handler = ClaudeService(os.getenv('ANTHROPIC_API_KEY'))
+    claude_handler = ClaudeService(config_handler.ANTHROPIC_API_KEY)
 
     if not claude_handler:
         return {
@@ -73,7 +72,7 @@ def lambda_handler(event, context):
         }
 
     # TODO update response of the DynamoDB record and number completed
-    dynamo_handler = DynamoDBService(os.getenv('AWS_DEFAULT_REGION'), os.getenv('DYNAMO_DB_TABLE'))
+    dynamo_handler = DynamoDBService(config_handler.AWS_DEFAULT_REGION, config_handler.DYNAMO_DB_TABLE)
 
     update_query = "ADD processed_files :f SET completed_count = completed_count + :inc, results.#filename = :output"
     updated_values = {
@@ -93,7 +92,7 @@ def lambda_handler(event, context):
             'message': 'Error updating dynamo table'
         }
 
-
+    print(updated_row)
 
     # TODO check if every file is completed
     #       TODO if yes then send off SNS notifier to notifier lambda
@@ -116,7 +115,7 @@ if __name__ == '__main__':
             {
                 "messageId": "059f36b4-87a3-44ab-83d2-661975830a7d",
                 "receiptHandle": "AQEBwJnKyrHigUMZj6rYigCgxlaS3SLy...",
-                "body": "{\"Records\":[{\"eventVersion\":\"2.1\",\"eventSource\":\"aws:s3\",\"awsRegion\":\"ap-southeast-2\",\"eventTime\":\"2026-01-15T14:30:45.123Z\",\"eventName\":\"ObjectCreated:Put\",\"s3\":{\"bucket\":{\"name\":\"docdigest\"},\"object\":{\"key\":\"9132b141-de57-4e55-9d75-36aca9616c9a/invoice_sample.pdf\",\"size\":2048576}}}]}",
+                "body": "{\"Records\":[{\"eventVersion\":\"2.1\",\"eventSource\":\"aws:s3\",\"awsRegion\":\"ap-southeast-2\",\"eventTime\":\"2026-01-15T14:30:45.123Z\",\"eventName\":\"ObjectCreated:Put\",\"s3\":{\"bucket\":{\"name\":\"docdigest\"},\"object\":{\"key\":\"cb423861-a982-4dd1-88ab-5d6c2134c087/invoice_sample.pdf\",\"size\":2048576}}}]}",
                 "attributes": {
                     "ApproximateReceiveCount": "1",
                     "SentTimestamp": "1705327845123",
