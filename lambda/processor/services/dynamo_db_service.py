@@ -19,7 +19,7 @@ class DynamoDBService:
                 UpdateExpression=update_query,
                 ExpressionAttributeValues=self._serialize_item(update_values),
                 ExpressionAttributeNames=updated_keys,
-                ReturnValues="UPDATED_NEW"
+                ReturnValues="ALL_NEW"
             )
 
         except Exception as e:

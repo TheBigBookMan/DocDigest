@@ -94,8 +94,10 @@ def lambda_handler(event, context):
 
     print(updated_row)
 
-    # TODO check if every file is completed
+    if updated_row['Attributes']['completed_count'] >= updated_row['Attributes']['total_files']:
+        ...
     #       TODO if yes then send off SNS notifier to notifier lambda
+#           TODO update the row status to COMPLETED
 
 # TODO if all is completed, then delete files from bucket? can say thats security decision???
 
