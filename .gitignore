@@ -4,3 +4,4 @@ spec.md
 venv
 
 lambda/processor/.env
+lambda/notifier/.env
