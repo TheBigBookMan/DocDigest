@@ -1,5 +1,6 @@
 import boto3
 import config
+import datetime
 from utils import logs
 from services import S3Service, ClaudeService, DynamoDBService
 from helper import parse_lambda, extract_text_from_pdf
@@ -108,11 +109,6 @@ def lambda_handler(event, context):
 
     print(updated_row)
 
-    if updated_row['Attributes']['completed_count'] >= updated_row['Attributes']['total_files']:
-        ...
-    #       TODO if yes then send off SNS notifier to notifier lambda
-#           TODO update the row status to COMPLETED
-
     # TODO documentation on deleting the file after querying LLM for security
     # Delete file from S3 bucket for security
     deleted_file = s3_handler.delete_file_from_s3(s3_key)
@@ -122,6 +118,25 @@ def lambda_handler(event, context):
             'status': 'error',
             'message': 'Error deleting file'
         }
+
+    if updated_row['Attributes']['completed_count'] >= updated_row['Attributes']['total_files']:
+        ...
+    #       TODO if yes then send off SNS notifier to notifier lambda
+
+
+        completed_update_query = "SET status = :s, completed_at = :c"
+        completed_update_values = {
+            ':s': 'COMPLETED',
+            ':c': datetime.datetime.now().isoformat()
+        }
+
+        update_row_completed = dynamo_handler.update_row(session_id, completed_update_query, completed_update_values)
+
+        if not update_row_completed:
+            return {
+                'status': 'error',
+                'message': 'Error updating completion dynamo row'
+            }
 
 
 if __name__ == '__main__':

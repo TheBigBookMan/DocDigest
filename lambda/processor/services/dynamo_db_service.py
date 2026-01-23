@@ -23,7 +23,7 @@ class DynamoDBService:
             self.logger.error(e)
             return False
 
-    def update_row(self, session_id, update_query, update_values, updated_keys):
+    def update_row(self, session_id, update_query, update_values, updated_keys = {}):
         self.logger.info(f"Updating row for session {session_id}")
 
         try:
