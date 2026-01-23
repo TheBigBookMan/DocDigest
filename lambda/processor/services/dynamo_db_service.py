@@ -9,6 +9,20 @@ class DynamoDBService:
         self.table_name = table_name
         self.serializer = TypeSerializer()
 
+    def get_item(self, session_id):
+        self.logger.info(f"Retrieving item from DynamoDB: {session_id}")
+
+        try:
+            return self.client.get_item(
+                TableName=self.table_name,
+                Key={session_id: {'S': session_id}},
+                ProjectionExpression='status'
+            )
+
+        except Exception as e:
+            self.logger.error(e)
+            return False
+
     def update_row(self, session_id, update_query, update_values, updated_keys):
         self.logger.info(f"Updating row for session {session_id}")
 
