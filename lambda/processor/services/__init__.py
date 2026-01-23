@@ -5,7 +5,6 @@ from .dynamo_db_service import DynamoDBService
 
 __all__ = [
     'S3Service',
-    # 'SNSService',
     'ClaudeService',
     'DynamoDBService'
 ]

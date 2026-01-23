@@ -6,10 +6,10 @@ from services import S3Service, ClaudeService, DynamoDBService
 from helper import parse_lambda, extract_text_from_pdf
 from claude_prompts import system_prompt
 
-logger = logs.get_logger('lambda')
+logger = logs.get_logger('lambda-processor')
 
 def lambda_handler(event, context):
-    logger.info(f"Starting lambda handler")
+    logger.info(f"Starting lambda-processor handler")
 
     # Get s3 and SQS information from event
     s3_event_data = parse_lambda(event)
@@ -123,7 +123,11 @@ def lambda_handler(event, context):
         ...
     #       TODO if yes then send off SNS notifier to notifier lambda
 
+        # TODO documentation abot the decision to have separate notifier lambda for separation of concerns
+        # TODO documentaiton on the pub/sub model with the processor lambda and notifier lambda
 
+
+        # Update dynamo record to be completed
         completed_update_query = "SET status = :s, completed_at = :c"
         completed_update_values = {
             ':s': 'COMPLETED',
@@ -137,6 +141,8 @@ def lambda_handler(event, context):
                 'status': 'error',
                 'message': 'Error updating completion dynamo row'
             }
+
+        logger.info('Successfully finishing lambda processor.')
 
 
 if __name__ == '__main__':
