@@ -42,25 +42,9 @@ def lambda_handler(event, context):
     # Format the information into email
     ses_handler = SESService(config_handler.AWS_DEFAULT_REGION)
     prepared_email_html = build_html_email(item_data)
-    email_info = {
-        'Source': config_handler.SES_EMAIL_SOURCE,
-        'Destination': {
-            'ToAddresses': [email]
-        },
-        'Message': {
-            'Subject': {
-                'Data': 'DocDigest summary of the uploaded files.'
-            },
-            'Body': {
-                'Html': {
-                    'Data': prepared_email_html
-                }
-            }
-        },
+    email_source = config_handler.SES_EMAIL_SOURCE
 
-    }
-
-    send_email = ses_handler.send_email(email_info)
+    send_email = ses_handler.send_email(email_source, email, prepared_email_html)
 
     if not send_email:
         return {
