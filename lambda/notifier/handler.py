@@ -1,7 +1,7 @@
 import boto3
 import config
 from utils import logs
-from helper import parse_lambda
+from helper import parse_lambda, build_html_email
 from services import DynamoDBService, SNSService
 
 logger = logs.get_logger('lambda-notifier')
@@ -23,9 +23,27 @@ def lambda_handler(event, context):
 
     retrieved_item = dynamo_handler.get_item(session_id)
 
-    print(retrieved_item)
+    if not retrieved_item:
+        return {
+            'status': 'error',
+            'message': 'Could not retrieve item from DynamoDB'
+        }
 
-#     TODO format the information into email
+    item_data = retrieved_item
+
+    if item_data['status'] != 'COMPLETED':
+        logger.error(f"Item has not completed processing")
+        return {
+            'status': 'error',
+            'message': 'Item not completed processing'
+        }
+
+    # Format the information into email
+    prepared_email = build_html_email(item_data)
+
+    print(prepared_email)
+
+
 
 # TODO send SES
 
