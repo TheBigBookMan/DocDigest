@@ -8,5 +8,5 @@ def parse_lambda(event):
         'event_source': event_body['EventSource'],
         'event_time': sns_event['Timestamp'],
         'event_type': sns_event['Type'],
-        'event_message': sns_event['Message'],
+        'event_message': json.loads(sns_event['Message']),
     }
