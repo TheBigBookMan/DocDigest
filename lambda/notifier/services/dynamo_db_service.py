@@ -13,7 +13,7 @@ class DynamoDBService:
         try:
             return self.client.get_item(
                 TableName=self.table_name,
-                Key={session_id: {'S': session_id}}
+                Key={'session_id': {'S': session_id}}
             )
         except Exception as e:
             self.logger.error(e)
