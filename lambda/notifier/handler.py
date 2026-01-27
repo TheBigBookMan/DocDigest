@@ -12,7 +12,22 @@ def lambda_handler(event, context):
     # Get event information
     lambda_event_data = parse_lambda(event)
 
-    print(lambda_event_data)
+    logger.info(f"Time: {lambda_event_data['event_time']}: Received event: {lambda_event_data['event_source']} with action {lambda_event_data['event_type']}")
+
+    session_id = lambda_event_data['event_message']['session_id']
+
+    config_handler = config.Config()
+
+    # Get dynamodb record
+    dynamo_handler = DynamoDBService(config_handler.AWS_DEFAULT_REGION, config_handler.DYNAMO_DB_TABLE)
+
+    retrieved_item = dynamo_handler.get_item(session_id)
+
+    print(retrieved_item)
+
+#     TODO format the information into email
+
+# TODO send SES
 
 
 if __name__ == '__main__':
@@ -30,7 +45,7 @@ if __name__ == '__main__':
             "Signature": "tcc6faL2yUC6dgZdmrwh1Y4cGa/ebXEkAi6RibDsvpi+tE/1+82j...65r==",
             "SigningCertURL": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-ac565b8b1a6c5d002d285f9598aa1d9b.pem",
             "MessageId": "95df01b4-ee98-5cb9-9903-4c221d41eb5e",
-            "Message": "{\"event_type\":\"session_complete\",\"session_id\":\"abc123\",\"email\":\"user@example.com\",\"total_files\":3,\"completed_at\":\"2026-01-22T14:30:45.123Z\",\"uploaded_at\":\"2026-01-22T14:29:30.000Z\"}",
+            "Message": "{\"event_type\":\"session_complete\",\"session_id\":\"e54a22c5-0634-4a90-8aeb-e25ec3df1701\",\"email\":\"bjsmerd@gmail.com\",\"total_files\":3,\"completed_at\":\"2026-01-22T14:30:45.123Z\",\"uploaded_at\":\"2026-01-22T14:29:30.000Z\"}",
             "MessageAttributes": {
               "Test": {
                 "Type": "String",
