@@ -40,7 +40,7 @@ def build_html_email(session):
     <div class="summary">
         <p><strong>Session ID:</strong> {session['session_id']}</p>
         <p><strong>Files Processed:</strong> {session['total_files']}</p>
-        <p><strong>Completed:</strong> {format_timestamp(session['completed_at'])}</p>
+        <p><strong>Completed:</strong> {format_timestamp(session['completed_at']) if session['completed_at'] else 'N/A'}</p>
     </div>
 """
 
@@ -100,7 +100,7 @@ def build_html_email(session):
                     <th>Tax</th>
                     <td>{data.get('tax', 'N/A')}</td>
                 </tr>
-                <tr style="background: #4CAF50; color: white;">
+                <tr style="background: #4CAF50;">
                     <th><strong>TOTAL</strong></th>
                     <td><strong>{data.get('total', 'N/A')}</strong></td>
                 </tr>
