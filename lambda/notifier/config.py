@@ -10,3 +10,4 @@ class Config:
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
     AWS_DEFAULT_REGION = os.getenv('AWS_DEFAULT_REGION')
     DYNAMO_DB_TABLE = os.getenv('DYNAMO_DB_TABLE')
+    SES_EMAIL_SOURCE = os.getenv('SES_EMAIL_SOURCE')

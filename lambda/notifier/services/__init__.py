@@ -1,7 +1,7 @@
 from .dynamo_db_service import DynamoDBService
-from .sns_service import SNSService
+from .ses_service import SESService
 
 __all__ = [
     'DynamoDBService',
-    'SNSService'
+    'SESService'
 ]

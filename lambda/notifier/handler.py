@@ -2,7 +2,7 @@ import boto3
 import config
 from utils import logs
 from helper import parse_lambda, build_html_email
-from services import DynamoDBService, SNSService
+from services import DynamoDBService, SESService
 
 logger = logs.get_logger('lambda-notifier')
 
@@ -15,6 +15,7 @@ def lambda_handler(event, context):
     logger.info(f"Time: {lambda_event_data['event_time']}: Received event: {lambda_event_data['event_source']} with action {lambda_event_data['event_type']}")
 
     session_id = lambda_event_data['event_message']['session_id']
+    email = lambda_event_data['event_message']['email']
 
     config_handler = config.Config()
 
@@ -39,9 +40,35 @@ def lambda_handler(event, context):
         }
 
     # Format the information into email
-    prepared_email = build_html_email(item_data)
+    ses_handler = SESService(config_handler.AWS_DEFAULT_REGION)
+    prepared_email_html = build_html_email(item_data)
+    email_info = {
+        'Source': config_handler.SES_EMAIL_SOURCE,
+        'Destination': {
+            'ToAddresses': [email]
+        },
+        'Message': {
+            'Subject': {
+                'Data': 'DocDigest summary of the uploaded files.'
+            },
+            'Body': {
+                'Html': {
+                    'Data': prepared_email_html
+                }
+            }
+        },
 
-    print(prepared_email)
+    }
+
+    send_email = ses_handler.send_email(email_info)
+
+    if not send_email:
+        return {
+            'status': 'error',
+            'message': 'Could not send email'
+        }
+
+    print(prepared_email_html)
 
 
 
