@@ -107,8 +107,6 @@ def lambda_handler(event, context):
             'message': 'Error updating dynamo table'
         }
 
-    print(updated_row)
-
     # TODO documentation on deleting the file after querying LLM for security
     # Delete file from S3 bucket for security
     deleted_file = s3_handler.delete_file_from_s3(s3_key)
@@ -134,6 +132,11 @@ def lambda_handler(event, context):
         # TODO documentation abot the decision to have separate notifier lambda for separation of concerns
         # TODO documentaiton on the pub/sub model with the processor lambda and notifier lambda
 
+        if not message_response:
+            return {
+                'status': 'error',
+                'message': 'Error publishing message'
+            }
 
         # Update dynamo record to be completed
         completed_update_query = "SET status = :s, completed_at = :c"
