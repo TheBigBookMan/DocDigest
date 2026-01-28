@@ -12,5 +12,5 @@ class Config:
     S3_BUCKET = os.getenv('S3_BUCKET')
     DYNAMO_DB_TABLE = os.getenv('DYNAMO_DB_TABLE')
     ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')
-
+    SNS_TOPIC_ARN = os.getenv('SNS_TOPIC_ARN')
 

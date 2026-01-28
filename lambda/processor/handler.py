@@ -120,8 +120,16 @@ def lambda_handler(event, context):
         }
 
     if updated_row['Attributes']['completed_count'] >= updated_row['Attributes']['total_files']:
-        ...
-    #       TODO if yes then send off SNS notifier to notifier lambda
+
+        # Publish SNS message for subscribed notifier lambda to receive
+        sns_handler = SNSService(config_handler.AWS_DEFAULT_REGION)
+
+        message = {
+            'session_id': session_id,
+            'email': dynamo_row['email'],
+        }
+
+        message_response = sns_handler.publish_message(message, config_handler.SNS_TOPIC_ARN)
 
         # TODO documentation abot the decision to have separate notifier lambda for separation of concerns
         # TODO documentaiton on the pub/sub model with the processor lambda and notifier lambda
