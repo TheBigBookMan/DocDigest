@@ -1,6 +1,6 @@
 spec.md
-.env
-.flaskenv
+app/.env
+app/.flaskenv
 venv
 
 lambda/processor/.env
