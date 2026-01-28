@@ -10,14 +10,14 @@ class SESService:
         self.logger.info(f"Sending email")
 
         try:
-            return self.client.send_email({
-                'Source': email_source,
-                'Destination': {
+            return self.client.send_email(
+                Source = email_source,
+                Destination = {
                     'ToAddresses': [
                         email_destination
                     ]
                 },
-                'Message': {
+                Message = {
                     'Subject': {
                         'Data': 'DocDigest summary of the uploaded files.'
                     },
@@ -27,7 +27,7 @@ class SESService:
                         }
                     }
                 },
-            })
+            )
 
         except Exception as e:
             self.logger.error(e)
