@@ -2,7 +2,7 @@ import boto3
 import config
 import datetime
 from utils import logs
-from services import S3Service, ClaudeService, DynamoDBService
+from services import S3Service, ClaudeService, DynamoDBService, SNSService
 from helper import parse_lambda, extract_text_from_pdf
 from claude_prompts import system_prompt
 
@@ -87,7 +87,7 @@ def lambda_handler(event, context):
             'message': 'Error retrieving claude'
         }
 
-    # TODO update response of the DynamoDB record and number completed
+    # Update response of the DynamoDB record and number completed
     update_query = "ADD processed_files :f SET completed_count = completed_count + :inc, results.#filename = :output"
     updated_values = {
         ':f': {filename},
