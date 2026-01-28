@@ -52,12 +52,7 @@ def lambda_handler(event, context):
             'message': 'Could not send email'
         }
 
-    print(prepared_email_html)
-
-
-
-# TODO send SES
-
+    logger.info(f"Email successfully sent to {email}")
 
 if __name__ == '__main__':
     print("Testing lambda notiofier")
