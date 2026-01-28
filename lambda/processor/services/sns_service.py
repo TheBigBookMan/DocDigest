@@ -10,9 +10,10 @@ class SNSService:
         self.logger.info('Publishing message to SNS')
 
         try:
-            response = self.client.publish(
+            return self.client.publish(
                 TopicArn=topic_arn,
                 Message=message,
+                MessageStructure='json'
             )
 
         except Exception as e:
