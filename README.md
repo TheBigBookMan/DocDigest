@@ -74,7 +74,7 @@ Setup the environment variables
 #### Webapp
 ```bash
 cp app/.env.example app/.env
-cp app/.flaskenv.example app/.flaskenv
+cp .flaskenv.example .flaskenv
 ```
 
 app/.env
@@ -88,7 +88,7 @@ S3_BUCKET=bucket_name
 DYNAMO_DB_TABLE=dynamo_table_name
 ```
 
-app/.flaskenv
+.flaskenv
 ```
 FLASK_APP=app/app.py // points flask to look for where app starts
 FLASK_DEBUG=1 // this turns on debug mode for hot reloading in flask
