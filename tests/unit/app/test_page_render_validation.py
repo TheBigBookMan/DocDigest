@@ -6,3 +6,8 @@ class TestPageRenderValidation:
         """GET request should be allowed."""
         response = client.get('/')
         assert response.status_code == 200
+
+    def test_post_request_not_allowed(self, client):
+        """POST request not allowed."""
+        response = client.post('/')
+        assert response.status_code != 200
