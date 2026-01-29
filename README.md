@@ -10,6 +10,13 @@ DocDigest is a small webapp tool created for users to upload a document (pdf, do
 - The user can view in realtime the processing of the documents
 
 ## Architecture
+The project consists of 3 different components.
+- **Webapp**: A GUI for handling file upload and session management.
+- **Processor Lambda**: Processes the files and extracts data using Claude API.
+- **Notifier Lambda**: Sends completion email with the extracted data from files.
+
+Event-driven architecture using AWS services (S3, SQS, SNS, DynamoDB, SES, Lambda)
+
 ADRs in `/documentation`
 ```mermaid
 flowchart TD;
@@ -63,12 +70,14 @@ pip install -r requirements.txt
 
 ### Configuration
 Setup the environment variables
+
+#### Webapp
 ```bash
-cp .env.example .env
-cp .flaskenv.example .flaskenv
+cp app/.env.example app/.env
+cp app/.flaskenv.example app/.flaskenv
 ```
 
-.env
+app/.env
 ```
 ENVIRONMENT='development'
 
@@ -79,25 +88,47 @@ S3_BUCKET=bucket_name
 DYNAMO_DB_TABLE=dynamo_table_name
 ```
 
-.flaskenv
+app/.flaskenv
 ```
 FLASK_APP=app/app.py // points flask to look for where app starts
 FLASK_DEBUG=1 // this turns on debug mode for hot reloading in flask
 ```
 
+#### Processor Lambda
+```bash
+cp lambda/processor/.env.example lambda/processor/.env
+```
+
+lambda/processor/.env
+```
+AWS_ACCESS_KEY_ID=aws_access_key_id
+AWS_SECRET_ACCESS_KEY=aws_secret_access_key
+AWS_DEFAULT_REGION=aws_region
+S3_BUCKET=bucket_name
+ANTHROPIC_API_KEY=anthropic_api_key
+DYNAMO_DB_TABLE=dynamo_table
+SNS_TOPIC_ARN=sns_topic_arn
+```
+
+#### Notifier Lambda
+```bash
+cp lambda/notifier/.env.example lambda/notifier/.env
+```
+
+lambda/notifier/.env
+```
+AWS_ACCESS_KEY_ID=aws_access_key
+AWS_SECRET_ACCESS_KEY=aws_secret_access_key
+AWS_DEFAULT_REGION=aws_region
+DYNAMO_DB_TABLE=dynamo_table
+SES_EMAIL_SOURCE=ses_email_source
+```
+
 ### Start
-Start the flask app locally at `http://127.0.0.1:5000`
+Start the flask webapp locally at `http://127.0.0.1:5000`
 ```bash
 flask run
 ```
-
-### Usage
-
-# Basic example
-command --flag input.file
-
-# Another example
-command --other-flag
 
 ## Development
 
