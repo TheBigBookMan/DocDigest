@@ -23,13 +23,13 @@ def upload():
         return {
             'status': 'error',
             'message': 'Only POST method allowed'
-        }
+        }, 405
 
     if 'files' not in request.files:
         return {
             'status': 'error',
             'message': 'Files need to be uploaded'
-        }
+        }, 400
 
     files = request.files.getlist('files')
     email = request.form.get('email')
@@ -39,7 +39,7 @@ def upload():
     validate_files = file_validation.validate(files)
 
     if validate_files['status'] == 'error':
-        return validate_files
+        return validate_files, 400
 
     files_to_process = validate_files['files']
 
@@ -51,12 +51,12 @@ def upload():
         return {
             'status': 'error',
             'message': 'S3 bucket does not exist'
-        }
+        }, 500
 
     upload_files_s3 = s3_handler.insert_s3(session_id, files_to_process)
 
     if upload_files_s3['status'] == 'error':
-        return upload_files_s3
+        return upload_files_s3, 500
 
     uploaded_files = upload_files_s3['uploaded_files']
 
@@ -80,10 +80,10 @@ def upload():
     insert_row_dynamo = dynamo_db_handler.insert_row(payload)
 
     if insert_row_dynamo['status'] == 'error':
-        return insert_row_dynamo
+        return insert_row_dynamo, 500
 
     return {
         'status': 'success',
         'message': 'Processing...',
         'uploaded_files': uploaded_files,
-    }
+    }, 200
