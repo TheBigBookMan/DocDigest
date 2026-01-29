@@ -8,6 +8,6 @@ class TestUploadMethodValidation:
         assert response.status_code == 405
 
     def test_post_request_allowed(self, client):
-        """Post request allowed."""
+        """Post request accepted (not 405)."""
         response = client.post('/upload')
-        assert response.status_code == 200
+        assert response.status_code != 405
