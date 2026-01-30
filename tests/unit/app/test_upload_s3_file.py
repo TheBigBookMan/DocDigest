@@ -92,3 +92,6 @@ class TestUploadS3File:
         assert response.status_code == 500
         assert json_data['status'] == 'error'
         assert 'Table does not exist' in json_data['message']
+
+        mock_s3_instance.insert_s3.assert_called_once()
+        mock_dynamo_instance.insert_row.assert_called_once()
