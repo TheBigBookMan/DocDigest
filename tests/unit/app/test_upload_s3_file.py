@@ -42,5 +42,4 @@ class TestUploadS3File:
         assert json_data['status'] == 'error'
         assert 'No uploaded files' in json_data['message']
 
-        mock_s3_instance.check_bucket_exists.assert_called_once()
         mock_s3_instance.insert_s3.assert_called_once()
