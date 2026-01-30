@@ -68,7 +68,7 @@ class TestUploadS3File:
         mock_s3_instance.check_bucket_exists.return_value = True
         mock_s3_instance.insert_s3.return_value = {
             'status': 'success',
-            'uploaded_files': [sample_file, sample_file]
+            'uploaded_files': ['invoice.pdf', 'test.pdf']
         }
         mock_s3_class.return_value = mock_s3_instance
 
