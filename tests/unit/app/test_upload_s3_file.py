@@ -43,3 +43,10 @@ class TestUploadS3File:
         assert 'No uploaded files' in json_data['message']
 
         mock_s3_instance.insert_s3.assert_called_once()
+
+    @patch('app.file_validation.validate')
+    @patch('app.DynamoDBService')
+    @patch('app.config.Config')
+    @patch('app.S3Service')
+    def test_s3_insert_success(self, mock_s3_class, mock_config_class, mock_dynamo_class, mock_validate, client, sample_file):
+        """S3 insert success and then fail at dynamodb row insert to show S3 was successful"""
