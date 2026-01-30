@@ -55,7 +55,7 @@ class TestUploadFilePresence:
         mock_config.AWS_DEFAULT_REGION = 'test-region'
         mock_config_class.return_value = mock_config
 
-        # Mock S3 service
+        # Mock S3 service- fail here because it proves that file validation worked
         mock_s3_instance = Mock()
         mock_s3_instance.check_bucket_exists.return_value = False
         mock_s3_class.return_value = mock_s3_instance
