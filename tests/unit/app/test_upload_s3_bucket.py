@@ -23,6 +23,8 @@ class TestUploadS3Bucket:
         # Mock S3 service
         mock_s3_instance = Mock()
         mock_s3_instance.check_bucket_exists.return_value = True
+
+        # Error at insert as this shows check bucket was true to pass on
         mock_s3_instance.insert_s3.return_value = {
             'status': 'error',
             'message': 'No uploaded files'
