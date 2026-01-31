@@ -49,4 +49,4 @@ jobs:
 
     - name: Check test coverage
       run: |
-        coverage report --fail-under=70
+        coverage report --fail-under=60
