@@ -86,4 +86,5 @@ def upload():
         'status': 'success',
         'message': 'Processing...',
         'uploaded_files': uploaded_files,
+        'session_id': session_id
     }, 200
