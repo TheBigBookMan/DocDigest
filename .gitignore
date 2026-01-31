@@ -2,6 +2,7 @@ spec.md
 app/.env
 .flaskenv
 venv
+.env.docker
 
 lambda/processor/.env
 lambda/notifier/.env
