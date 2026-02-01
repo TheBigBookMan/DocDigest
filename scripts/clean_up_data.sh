@@ -1,8 +1,8 @@
 echo "Starting to clean up the data"
 
 # Load .env file if it exists
-if [ -f app/.env ]; then
-  export $(grep -v '^#' app/.env | xargs)
+if [ -f ../app/.env ]; then
+  export $(grep -v '^#' ../app/.env | xargs)
 fi
 
 echo "Removing files in s3 bucket: ${S3_BUCKET}"
