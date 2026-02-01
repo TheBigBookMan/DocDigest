@@ -125,8 +125,10 @@ lambda/notifier/.env
 AWS_ACCESS_KEY_ID=aws_access_key
 AWS_SECRET_ACCESS_KEY=aws_secret_access_key
 AWS_DEFAULT_REGION=aws_region
+AWS_ACCOUNT_ID=aws_account_id
 DYNAMO_DB_TABLE=dynamo_table
 SES_EMAIL_SOURCE=ses_email_source
+ECR_REPO_NAME=ecr_repo_name
 ```
 
 ### Start
