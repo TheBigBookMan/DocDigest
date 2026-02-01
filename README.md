@@ -107,10 +107,12 @@ lambda/processor/.env
 AWS_ACCESS_KEY_ID=aws_access_key_id
 AWS_SECRET_ACCESS_KEY=aws_secret_access_key
 AWS_DEFAULT_REGION=aws_region
+AWS_ACCOUNT_ID=aws_account_id
 S3_BUCKET=bucket_name
 ANTHROPIC_API_KEY=anthropic_api_key
 DYNAMO_DB_TABLE=dynamo_table
 SNS_TOPIC_ARN=sns_topic_arn
+ECR_REPO_NAME=ecr_repo_name
 ```
 
 #### Notifier Lambda
