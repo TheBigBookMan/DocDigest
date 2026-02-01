@@ -86,6 +86,7 @@ AWS_SECRET_ACCESS_KEY=secret_secret_key
 AWS_DEFAULT_REGION=aws_region
 S3_BUCKET=bucket_name
 DYNAMO_DB_TABLE=dynamo_table_name
+SQS_URL=sqs_url
 ```
 
 .flaskenv
@@ -131,6 +132,14 @@ flask run
 ```
 
 ## Development
+
+### Clean up AWS data
+If you are developing or running tests which created bad data in the AWS services (S3, DynamoDB and SQS), run this script to clean up the services. This script depends on the app/.env file having values.
+
+root
+```bash
+bash scripts/clean_up_data.sh
+```
 
 ### Running Tests
 
