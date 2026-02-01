@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
 COPY app/ /app/
 
 # Expose port Flask runs on
-EXPOSE 8000
+EXPOSE 8000:5000
 
 # Run Flask application
 CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
