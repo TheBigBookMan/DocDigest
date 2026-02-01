@@ -136,6 +136,11 @@ flask run
 ### Clean up AWS data
 If you are developing or running tests which created bad data in the AWS services (S3, DynamoDB and SQS), run this script to clean up the services. This script depends on the app/.env file having values.
 
+This script will:
+- Delete all files in S3 bucket
+- Delete DynamoDB table and re-create it (most efficient way to clean)
+- Purge the SQS queue from any messages stuck in limbo
+
 root
 ```bash
 bash scripts/clean_up_data.sh
